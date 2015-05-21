@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="galleryApp">
+<head>
+    <title>Flickr Gallery App</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="app/Content/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.6/animate.min.css">
+
+    <script src='//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-touch.min.js'></script>
+    <!-- App -->
+    <script src="app/app.js"></script>
+    <script src="app/services/galleryFactory.js"></script>
+    <script src="app/controller/galleryController.js"></script>
+</head>
+<body>
+    <div class="page-container" ng-controller="GalleryCtrl as galleryCtrl">
+        <div id="loading-overlay" class="full-container" ng-if="galleryCtrl.isLoading">
+            <div id="loading">
+                <div id="ball-1" class="circle"></div>
+                <div id="ball-2" class="circle"></div>
+                <div id="ball-3" class="circle"></div>
+            </div>
+        </div>
+        <div id="background-container" class="full-container">
+            <div id="background-main" class="full-container" ng-click="galleryCtrl.toggleControls()"
+                 ng-class="{'z-index-1': !galleryCtrl.isFront}">
+                <div class="background-image-fallback" ng-style="{'background' : galleryCtrl.backgroundImg }">
+                </div>
+                <div class="background-image" ng-style="{'background' : galleryCtrl.backgroundImg }">
+                </div>
+            </div>
+            <div id="background-prev" class="full-container translateX"
+                 ng-class="{'in-frame': galleryCtrl.isPrev}">
+                <div class="background-image-fallback" ng-style="{'background' : galleryCtrl.backgroundImgPrev }">
+                </div>
+                <div class="background-image" ng-style="{'background' : galleryCtrl.backgroundImgPrev }">
+                </div>
+            </div>
+            <div id="background-next" class="full-container translateX"
+                 ng-class="{'in-frame': galleryCtrl.isNext}">
+                <div class="background-image-fallback" ng-style="{'background' : galleryCtrl.backgroundImgNext }">
+                </div>
+                <div class="background-image" ng-style="{'background' : galleryCtrl.backgroundImgNext }">
+                </div>
+            </div>
+        </div>
+        <div id="controls" class="full-container" ng-class="{'inactive': !galleryCtrl.displayControls}">
+            <i id="visibility-toggle" class="fa fa-eye" ng-click="galleryCtrl.toggleControls()"></i>
+            <form id="search-bar" ng-submit="galleryCtrl.getData()">
+                <input type="text" ng-model="galleryCtrl.textSearch" />
+                <i class="fa fa-search" ng-click="galleryCtrl.getData()"></i>
+            </form>
+            <i class="button-nav btn-next fa fa-arrow-circle-right" ng-click="galleryCtrl.nextImg()" ng-if="galleryCtrl.displayGeneral"></i>
+            <i class="button-nav btn-prev fa fa-arrow-circle-left" ng-click="galleryCtrl.prevImg()" ng-if="galleryCtrl.displayPrev"></i>
+            <div id="background-overlay">
+                <div class="container">
+                    <h1>{{ galleryCtrl.activePhoto.title }}</h1>
+                    <p><a href="{{ galleryCtrl.activePhotoUrl }}" class="text-overflow" ng-if="galleryCtrl.displayGeneral">Source</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
